@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: the-sheriffs-last-conversation
+    runtime: python
+    buildCommand: "./build.sh"
+    startCommand: "uvicorn backend.main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false  # You must set this manually in the Render dashboard
+      - key: PYTHON_VERSION
+        value: "3.11.9"

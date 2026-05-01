@@ -7,8 +7,8 @@ __pycache__/
 dist/
 build/
 
-# # Environment
-# .env
+# Environment
+.env
 
 # ChromaDB vector store (large binary, rebuild with: python -m backend.rag.vectorstore)
 data/processed/
