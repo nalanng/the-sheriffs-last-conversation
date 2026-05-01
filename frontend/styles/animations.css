@@ -1,0 +1,83 @@
+/* ============================================
+   ANIMATIONS — All @keyframes
+   ============================================ */
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes messageIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes cursorBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+@keyframes flicker {
+    0%, 100% { opacity: var(--lamp-intensity); }
+    47% { opacity: calc(var(--lamp-intensity) * 0.88); }
+    50% { opacity: calc(var(--lamp-intensity) * 0.78); }
+    53% { opacity: calc(var(--lamp-intensity) * 0.90); }
+    73% { opacity: calc(var(--lamp-intensity) * 0.92); }
+}
+
+@keyframes lampGlow {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+@keyframes stageFlash {
+    0% { opacity: 0.7; }
+    100% { opacity: 0; }
+}
+
+@keyframes screenShake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-3px); }
+    40% { transform: translateX(3px); }
+    60% { transform: translateX(-2px); }
+    80% { transform: translateX(2px); }
+}
+
+@keyframes titleGlow {
+    0%, 100% { text-shadow: 0 0 30px rgba(201, 168, 76, 0.3); }
+    50% { text-shadow: 0 0 50px rgba(201, 168, 76, 0.5), 0 0 80px rgba(201, 168, 76, 0.1); }
+}
+
+@keyframes textShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-1px) rotate(-0.2deg); }
+    75% { transform: translateX(1px) rotate(0.2deg); }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+}
+
+@keyframes endFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes endItemFade {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes lyricFade {
+    0%   { color: rgba(201, 168, 76, 0); transform: translateY(10px); }
+    20%  { color: rgba(201, 168, 76, 0.35); transform: translateY(0); }
+    70%  { color: rgba(201, 168, 76, 0.35); transform: translateY(0); }
+    100% { color: rgba(201, 168, 76, 0); transform: translateY(-10px); }
+}

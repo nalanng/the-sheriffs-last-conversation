@@ -1,0 +1,231 @@
+/* ============================================
+   ROOM SCENE — CSS Art
+   Window, desk, badge, revolver, lamp, bed
+   ============================================ */
+
+#room-scene {
+    position: fixed;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    opacity: var(--scene-opacity);
+    transition: opacity 3s ease;
+}
+
+/* Window with moonlight */
+.window {
+    position: absolute;
+    top: 8%;
+    right: 8%;
+    width: 90px;
+    height: 130px;
+    border: 2px solid rgba(139, 119, 72, 0.5);
+    border-radius: 2px 2px 0 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(30, 40, 60, 0.3) 0%,
+        rgba(20, 25, 40, 0.15) 100%
+    );
+    box-shadow: 0 0 25px rgba(180, 200, 220, 0.08),
+                inset 0 0 15px rgba(180, 200, 220, 0.05);
+}
+
+.window::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2px;
+    height: 100%;
+    background: rgba(139, 119, 72, 0.35);
+    transform: translateX(-50%);
+}
+
+.window::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: rgba(139, 119, 72, 0.35);
+    transform: translateY(-50%);
+}
+
+.moonlight {
+    position: absolute;
+    top: -30px;
+    left: -30px;
+    right: -30px;
+    bottom: -40px;
+    background: radial-gradient(
+        ellipse at center,
+        rgba(180, 200, 220, 0.12) 0%,
+        rgba(180, 200, 220, 0.04) 40%,
+        transparent 70%
+    );
+}
+
+/* Desk at the bottom */
+.desk {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: linear-gradient(
+        to top,
+        rgba(55, 35, 15, 0.95) 0%,
+        rgba(45, 30, 12, 0.7) 60%,
+        transparent 100%
+    );
+    border-top: 1px solid rgba(139, 119, 72, 0.3);
+}
+
+/* Badge on desk — sheriff's star */
+.badge {
+    position: absolute;
+    bottom: 22px;
+    left: 25%;
+    width: 24px;
+    height: 24px;
+    border: 2px solid rgba(184, 134, 11, 0.7);
+    border-radius: 50%;
+    box-shadow: 0 0 12px rgba(184, 134, 11, 0.3),
+                0 0 25px rgba(184, 134, 11, 0.1);
+}
+
+.badge::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    border: 1.5px solid rgba(184, 134, 11, 0.5);
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+/* Revolver silhouette */
+.revolver {
+    position: absolute;
+    bottom: 25px;
+    left: calc(25% + 50px);
+    width: 45px;
+    height: 10px;
+    background: rgba(80, 60, 35, 0.8);
+    border-radius: 1px;
+    transform: rotate(-5deg);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.revolver::before {
+    content: '';
+    position: absolute;
+    right: -2px;
+    top: -5px;
+    width: 12px;
+    height: 7px;
+    background: rgba(80, 60, 35, 0.7);
+    border-radius: 2px 2px 0 0;
+}
+
+.revolver::after {
+    content: '';
+    position: absolute;
+    left: 10px;
+    bottom: -10px;
+    width: 7px;
+    height: 12px;
+    background: rgba(80, 60, 35, 0.7);
+    border-radius: 0 0 2px 2px;
+}
+
+/* Lamp object on desk */
+.lamp-object {
+    position: absolute;
+    bottom: 18px;
+    right: 30%;
+    width: 14px;
+    height: 28px;
+    background: rgba(139, 119, 72, 0.5);
+    border-radius: 2px 2px 6px 6px;
+    box-shadow: 0 0 6px rgba(139, 119, 72, 0.2);
+}
+
+.lamp-object::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -6px;
+    width: 26px;
+    height: 12px;
+    border: 1.5px solid rgba(139, 119, 72, 0.4);
+    border-radius: 50% 50% 0 0;
+    border-bottom: none;
+}
+
+.lamp-object::after {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: -2px;
+    width: 18px;
+    height: 18px;
+    background: radial-gradient(circle, rgba(255, 180, 80, 0.7), rgba(255, 150, 50, 0.2), transparent);
+    border-radius: 50%;
+    animation: lampGlow 3s ease-in-out infinite;
+}
+
+/* Bed — sheriff silhouette in corner */
+.bed {
+    position: absolute;
+    bottom: 80px;
+    left: 5%;
+    width: 120px;
+    height: 35px;
+    background: rgba(50, 35, 18, 0.7);
+    border: 1px solid rgba(139, 119, 72, 0.25);
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.bed::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: -16px;
+    width: 24px;
+    height: 16px;
+    background: rgba(55, 38, 18, 0.8);
+    border-radius: 4px 4px 0 0;
+    border: 1px solid rgba(139, 119, 72, 0.15);
+    border-bottom: none;
+}
+
+.sheriff-silhouette {
+    position: absolute;
+    top: -10px;
+    left: 18px;
+    width: 70px;
+    height: 18px;
+    background: rgba(70, 50, 28, 0.6);
+    border-radius: 50%;
+    opacity: 1;
+    transition: opacity 3s ease;
+    box-shadow: 0 0 10px rgba(40, 30, 15, 0.5);
+}
+
+/* Sheriff silhouette fades with stages */
+body.stage-2 .sheriff-silhouette {
+    opacity: 0.6;
+}
+
+body.stage-3 .sheriff-silhouette {
+    opacity: 0.3;
+    filter: blur(1px);
+}
+
+body.ended .sheriff-silhouette {
+    opacity: 0;
+}

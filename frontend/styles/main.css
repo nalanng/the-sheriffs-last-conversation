@@ -1,0 +1,983 @@
+/* ============================================
+   THE SHERIFF'S LAST CONVERSATION
+   Immersive dark room — a dying man's lamplight
+   ============================================ */
+
+/* --- Reset & Base --- */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --lamp-color: rgba(255, 180, 80, 0.12);
+    --lamp-intensity: 1;
+    --darkness: 0;
+    --text-primary: #d4c4a0;
+    --text-dim: #8a7a5a;
+    --text-sheriff: #c9a84c;
+    --bg-dark: #0a0804;
+    --bg-chat: rgba(20, 16, 10, 0.85);
+    --border-color: rgba(139, 119, 72, 0.3);
+    --accent: #b8860b;
+    --scene-opacity: 1;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    font-family: 'IM Fell English', Georgia, serif;
+}
+
+/* --- Particle Canvas --- */
+#particles {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* --- Darkness Overlay --- */
+#darkness-overlay {
+    position: fixed;
+    inset: 0;
+    background: black;
+    opacity: var(--darkness);
+    pointer-events: none;
+    z-index: 100;
+    transition: opacity 3s ease;
+}
+
+/* --- Stage Transition Flash --- */
+#stage-flash {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 99;
+}
+
+#stage-flash.flash {
+    animation: stageFlash 1.5s ease-out forwards;
+}
+
+@keyframes stageFlash {
+    0% { opacity: 0.7; }
+    100% { opacity: 0; }
+}
+
+/* --- Lamp Glow Effect --- */
+#lamp-glow {
+    position: fixed;
+    top: -20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120%;
+    height: 70%;
+    background: radial-gradient(
+        ellipse at center,
+        var(--lamp-color) 0%,
+        transparent 70%
+    );
+    pointer-events: none;
+    z-index: 1;
+    opacity: var(--lamp-intensity);
+    transition: opacity 3s ease;
+    animation: flicker 4s ease-in-out infinite;
+}
+
+@keyframes flicker {
+    0%, 100% { opacity: var(--lamp-intensity); }
+    47% { opacity: calc(var(--lamp-intensity) * 0.88); }
+    50% { opacity: calc(var(--lamp-intensity) * 0.78); }
+    53% { opacity: calc(var(--lamp-intensity) * 0.90); }
+    73% { opacity: calc(var(--lamp-intensity) * 0.92); }
+}
+
+/* --- Dylan Lyrics Overlay --- */
+#lyrics-overlay {
+    position: fixed;
+    top: 12%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 50;
+    pointer-events: none;
+    text-align: center;
+    width: 80%;
+    max-width: 600px;
+}
+
+#lyrics-overlay .lyric-line {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    color: rgba(201, 168, 76, 0);
+    letter-spacing: 2px;
+    animation: lyricFade 6s ease-in-out forwards;
+}
+
+@keyframes lyricFade {
+    0%   { color: rgba(201, 168, 76, 0); transform: translateY(10px); }
+    20%  { color: rgba(201, 168, 76, 0.35); transform: translateY(0); }
+    70%  { color: rgba(201, 168, 76, 0.35); transform: translateY(0); }
+    100% { color: rgba(201, 168, 76, 0); transform: translateY(-10px); }
+}
+
+/* ============================================
+   ROOM SCENE (CSS Art)
+   ============================================ */
+#room-scene {
+    position: fixed;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    opacity: var(--scene-opacity);
+    transition: opacity 3s ease;
+}
+
+/* Window with moonlight */
+.window {
+    position: absolute;
+    top: 8%;
+    right: 8%;
+    width: 90px;
+    height: 130px;
+    border: 2px solid rgba(139, 119, 72, 0.5);
+    border-radius: 2px 2px 0 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(30, 40, 60, 0.3) 0%,
+        rgba(20, 25, 40, 0.15) 100%
+    );
+    box-shadow: 0 0 25px rgba(180, 200, 220, 0.08),
+                inset 0 0 15px rgba(180, 200, 220, 0.05);
+}
+
+.window::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2px;
+    height: 100%;
+    background: rgba(139, 119, 72, 0.35);
+    transform: translateX(-50%);
+}
+
+.window::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: rgba(139, 119, 72, 0.35);
+    transform: translateY(-50%);
+}
+
+.moonlight {
+    position: absolute;
+    top: -30px;
+    left: -30px;
+    right: -30px;
+    bottom: -40px;
+    background: radial-gradient(
+        ellipse at center,
+        rgba(180, 200, 220, 0.12) 0%,
+        rgba(180, 200, 220, 0.04) 40%,
+        transparent 70%
+    );
+}
+
+/* Desk at the bottom */
+.desk {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: linear-gradient(
+        to top,
+        rgba(55, 35, 15, 0.95) 0%,
+        rgba(45, 30, 12, 0.7) 60%,
+        transparent 100%
+    );
+    border-top: 1px solid rgba(139, 119, 72, 0.3);
+}
+
+/* Badge on desk — sheriff's star */
+.badge {
+    position: absolute;
+    bottom: 22px;
+    left: 25%;
+    width: 24px;
+    height: 24px;
+    border: 2px solid rgba(184, 134, 11, 0.7);
+    border-radius: 50%;
+    box-shadow: 0 0 12px rgba(184, 134, 11, 0.3),
+                0 0 25px rgba(184, 134, 11, 0.1);
+}
+
+.badge::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    border: 1.5px solid rgba(184, 134, 11, 0.5);
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+/* Revolver silhouette */
+.revolver {
+    position: absolute;
+    bottom: 25px;
+    left: calc(25% + 50px);
+    width: 45px;
+    height: 10px;
+    background: rgba(80, 60, 35, 0.8);
+    border-radius: 1px;
+    transform: rotate(-5deg);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.revolver::before {
+    content: '';
+    position: absolute;
+    right: -2px;
+    top: -5px;
+    width: 12px;
+    height: 7px;
+    background: rgba(80, 60, 35, 0.7);
+    border-radius: 2px 2px 0 0;
+}
+
+.revolver::after {
+    content: '';
+    position: absolute;
+    left: 10px;
+    bottom: -10px;
+    width: 7px;
+    height: 12px;
+    background: rgba(80, 60, 35, 0.7);
+    border-radius: 0 0 2px 2px;
+}
+
+/* Lamp object on desk */
+.lamp-object {
+    position: absolute;
+    bottom: 18px;
+    right: 30%;
+    width: 14px;
+    height: 28px;
+    background: rgba(139, 119, 72, 0.5);
+    border-radius: 2px 2px 6px 6px;
+    box-shadow: 0 0 6px rgba(139, 119, 72, 0.2);
+}
+
+.lamp-object::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -6px;
+    width: 26px;
+    height: 12px;
+    border: 1.5px solid rgba(139, 119, 72, 0.4);
+    border-radius: 50% 50% 0 0;
+    border-bottom: none;
+}
+
+.lamp-object::after {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: -2px;
+    width: 18px;
+    height: 18px;
+    background: radial-gradient(circle, rgba(255, 180, 80, 0.7), rgba(255, 150, 50, 0.2), transparent);
+    border-radius: 50%;
+    animation: lampGlow 3s ease-in-out infinite;
+}
+
+@keyframes lampGlow {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+/* Bed — sheriff silhouette in corner */
+.bed {
+    position: absolute;
+    bottom: 80px;
+    left: 5%;
+    width: 120px;
+    height: 35px;
+    background: rgba(50, 35, 18, 0.7);
+    border: 1px solid rgba(139, 119, 72, 0.25);
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.bed::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: -16px;
+    width: 24px;
+    height: 16px;
+    background: rgba(55, 38, 18, 0.8);
+    border-radius: 4px 4px 0 0;
+    border: 1px solid rgba(139, 119, 72, 0.15);
+    border-bottom: none;
+}
+
+.sheriff-silhouette {
+    position: absolute;
+    top: -10px;
+    left: 18px;
+    width: 70px;
+    height: 18px;
+    background: rgba(70, 50, 28, 0.6);
+    border-radius: 50%;
+    opacity: 1;
+    transition: opacity 3s ease;
+    box-shadow: 0 0 10px rgba(40, 30, 15, 0.5);
+}
+
+/* Sheriff silhouette fades with stages */
+body.stage-2 .sheriff-silhouette {
+    opacity: 0.6;
+}
+
+body.stage-3 .sheriff-silhouette {
+    opacity: 0.3;
+    filter: blur(1px);
+}
+
+body.ended .sheriff-silhouette {
+    opacity: 0;
+}
+
+/* ============================================
+   APP CONTAINER
+   ============================================ */
+#app {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ============================================
+   INTRO SCREEN
+   ============================================ */
+#intro-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    animation: fadeIn 2s ease;
+}
+
+#intro-content {
+    max-width: 650px;
+    padding: 40px;
+}
+
+/* Door frame visual */
+.door-frame {
+    position: relative;
+    border: 2px solid rgba(139, 119, 72, 0.25);
+    border-radius: 4px 4px 0 0;
+    padding: 6px;
+    background: rgba(10, 8, 4, 0.4);
+}
+
+.door-frame::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(184, 134, 11, 0.4);
+    transform: translateY(-50%);
+}
+
+.door-inner {
+    position: relative;
+    border: 1px solid rgba(139, 119, 72, 0.12);
+    padding: 50px 40px;
+}
+
+/* Door knocker — decorative ring at top center */
+.door-knocker {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 22px;
+    height: 22px;
+    border: 2px solid rgba(184, 134, 11, 0.35);
+    border-radius: 50%;
+    background: transparent;
+}
+
+.door-knocker::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background: rgba(184, 134, 11, 0.3);
+    border-radius: 50%;
+}
+
+#intro-content h1 {
+    font-family: 'Special Elite', cursive;
+    font-size: 2.2rem;
+    color: var(--text-sheriff);
+    margin-bottom: 30px;
+    letter-spacing: 2px;
+    text-shadow: 0 0 30px rgba(201, 168, 76, 0.3);
+    animation: titleGlow 4s ease-in-out infinite;
+}
+
+@keyframes titleGlow {
+    0%, 100% { text-shadow: 0 0 30px rgba(201, 168, 76, 0.3); }
+    50% { text-shadow: 0 0 50px rgba(201, 168, 76, 0.5), 0 0 80px rgba(201, 168, 76, 0.1); }
+}
+
+.intro-text {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+.intro-text.small {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+}
+
+#start-btn {
+    margin-top: 30px;
+    padding: 14px 40px;
+    font-family: 'Special Elite', cursive;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    background: transparent;
+    border: 1px solid var(--accent);
+    cursor: pointer;
+    letter-spacing: 2px;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+#start-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(184, 134, 11, 0.2), transparent);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+#start-btn:hover {
+    background: rgba(184, 134, 11, 0.15);
+    box-shadow: 0 0 30px rgba(184, 134, 11, 0.25);
+    transform: scale(1.02);
+}
+
+#start-btn:hover::before {
+    opacity: 1;
+}
+
+/* ============================================
+   CHAT SCREEN
+   ============================================ */
+#chat-screen {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding: 20px;
+    animation: fadeIn 1.5s ease;
+}
+
+/* Stage indicator */
+#stage-indicator {
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+#stage-text {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    font-style: italic;
+    letter-spacing: 1px;
+    transition: all 2s ease;
+}
+
+/* Chat messages */
+#chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color) transparent;
+}
+
+#chat-messages::-webkit-scrollbar {
+    width: 4px;
+}
+
+#chat-messages::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 2px;
+}
+
+/* ============================================
+   MESSAGE BUBBLES
+   ============================================ */
+.message {
+    max-width: 70%;
+    padding: 14px 20px;
+    border-radius: 4px;
+    line-height: 1.7;
+    animation: messageIn 0.6s ease;
+}
+
+.message.user {
+    align-self: flex-end;
+    background: rgba(60, 50, 30, 0.5);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    font-size: 1.05rem;
+}
+
+.message.sheriff {
+    align-self: flex-start;
+    background: rgba(30, 25, 15, 0.7);
+    border-left: 3px solid var(--accent);
+    color: var(--text-sheriff);
+    font-style: italic;
+    font-size: 1.05rem;
+    transition: font-size 2s ease, opacity 2s ease, filter 2s ease;
+}
+
+.message.sheriff .speaker {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-bottom: 6px;
+    font-style: normal;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Typewriter cursor */
+.typewriter-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background: var(--text-sheriff);
+    margin-left: 2px;
+    vertical-align: text-bottom;
+    animation: cursorBlink 0.8s step-end infinite;
+}
+
+@keyframes cursorBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* ============================================
+   STAGE-BASED TEXT DEGRADATION
+   ============================================ */
+body.stage-2 .message.sheriff {
+    font-size: 0.95rem;
+    opacity: 0.85;
+}
+
+body.stage-3 .message.sheriff {
+    font-size: 0.85rem;
+    opacity: 0.65;
+    filter: blur(0.3px);
+}
+
+body.stage-3 .message.sheriff:last-of-type {
+    animation: textShake 3s ease-in-out infinite;
+}
+
+@keyframes textShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-1px) rotate(-0.2deg); }
+    75% { transform: translateX(1px) rotate(0.2deg); }
+}
+
+/* Stage 3 input placeholder changes */
+body.stage-3 #user-input::placeholder {
+    content: "He may not answer...";
+}
+
+/* Typing indicator */
+.typing-indicator {
+    align-self: flex-start;
+    padding: 14px 20px;
+    color: var(--text-dim);
+    font-style: italic;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+}
+
+/* Input area */
+#input-area {
+    display: flex;
+    gap: 12px;
+    padding: 16px 40px;
+    border-top: 1px solid var(--border-color);
+}
+
+#user-input {
+    flex: 1;
+    padding: 12px 18px;
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 1rem;
+    color: var(--text-primary);
+    background: rgba(20, 16, 10, 0.9);
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+#user-input:focus {
+    border-color: var(--accent);
+}
+
+#user-input::placeholder {
+    color: var(--text-dim);
+    font-style: italic;
+}
+
+#user-input:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+#send-btn {
+    padding: 12px 28px;
+    font-family: 'Special Elite', cursive;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    background: transparent;
+    border: 1px solid var(--accent);
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+#send-btn:hover:not(:disabled) {
+    background: rgba(184, 134, 11, 0.15);
+}
+
+#send-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+/* ============================================
+   END SCREEN
+   ============================================ */
+#end-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    background: #000;
+}
+
+#end-content {
+    max-width: 500px;
+    padding: 40px;
+}
+
+.end-sequence {
+    opacity: 0;
+    animation: endFadeIn 2s ease forwards;
+}
+
+.end-text {
+    font-size: 1.5rem;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+    font-style: italic;
+    opacity: 0;
+}
+
+.end-text.fade-1 {
+    animation: endItemFade 2s ease forwards;
+    animation-delay: 0.5s;
+}
+
+.end-text.fade-2 {
+    font-size: 1rem;
+    margin-bottom: 40px;
+    animation: endItemFade 2s ease forwards;
+    animation-delay: 2s;
+}
+
+.end-lyric {
+    margin-bottom: 50px;
+    opacity: 0;
+    animation: endItemFade 3s ease forwards;
+    animation-delay: 4s;
+}
+
+.end-lyric p {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 1.3rem;
+    font-style: italic;
+    color: var(--text-sheriff);
+    line-height: 2;
+    text-shadow: 0 0 30px rgba(201, 168, 76, 0.3);
+}
+
+.end-lyric .lyric-attribution {
+    display: block;
+    margin-top: 16px;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    font-style: normal;
+    letter-spacing: 2px;
+}
+
+.end-actions {
+    opacity: 0;
+    animation: endItemFade 2s ease forwards;
+    animation-delay: 6.5s;
+}
+
+@keyframes endFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes endItemFade {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+#export-btn, #restart-btn {
+    display: block;
+    width: 100%;
+    margin-bottom: 14px;
+    padding: 14px 30px;
+    font-family: 'Special Elite', cursive;
+    font-size: 1rem;
+    color: var(--text-primary);
+    background: transparent;
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+#export-btn:hover, #restart-btn:hover {
+    background: rgba(184, 134, 11, 0.1);
+    border-color: var(--accent);
+}
+
+/* ============================================
+   SCREEN SHAKE
+   ============================================ */
+body.screen-shake {
+    animation: screenShake 0.4s ease;
+}
+
+@keyframes screenShake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-3px); }
+    40% { transform: translateX(3px); }
+    60% { transform: translateX(-2px); }
+    80% { transform: translateX(2px); }
+}
+
+/* ============================================
+   GENERAL ANIMATIONS
+   ============================================ */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes messageIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================
+   STAGE-BASED VISUAL CHANGES
+   ============================================ */
+body.stage-2 {
+    --lamp-color: rgba(255, 160, 60, 0.08);
+    --lamp-intensity: 0.6;
+    --darkness: 0.15;
+    --scene-opacity: 0.6;
+}
+
+body.stage-3 {
+    --lamp-color: rgba(255, 140, 40, 0.04);
+    --lamp-intensity: 0.3;
+    --darkness: 0.4;
+    --scene-opacity: 0.3;
+}
+
+body.ended {
+    --lamp-intensity: 0;
+    --darkness: 0.85;
+    --scene-opacity: 0;
+}
+
+/* ============================================
+   SENTIMENT-REACTIVE VISUALS (NLP-driven)
+   ============================================ */
+
+/* Lamp glow color shifts with detected user emotion — !important overrides stage defaults */
+body.sentiment-anguished {
+    --lamp-color: rgba(200, 60, 60, 0.18) !important;
+}
+
+body.sentiment-somber {
+    --lamp-color: rgba(100, 120, 180, 0.16) !important;
+}
+
+body.sentiment-warm {
+    --lamp-color: rgba(255, 160, 40, 0.20) !important;
+}
+
+body.sentiment-compassionate {
+    --lamp-color: rgba(100, 220, 140, 0.20) !important;
+}
+
+/* Sentiment dot indicator on user messages */
+.sentiment-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin-left: 8px;
+    vertical-align: middle;
+    opacity: 0.7;
+    transition: opacity 0.5s ease;
+}
+
+.dot-anguished {
+    background: #c83838;
+    box-shadow: 0 0 8px rgba(200, 56, 56, 0.6);
+}
+
+.dot-somber {
+    background: #6478b4;
+    box-shadow: 0 0 8px rgba(100, 120, 180, 0.6);
+}
+
+.dot-calm {
+    background: #b8a070;
+    box-shadow: 0 0 6px rgba(184, 160, 112, 0.4);
+}
+
+.dot-warm {
+    background: #e09020;
+    box-shadow: 0 0 8px rgba(255, 160, 40, 0.6);
+}
+
+.dot-compassionate {
+    background: #50c878;
+    box-shadow: 0 0 8px rgba(100, 220, 140, 0.6);
+}
+
+/* User message border-left color tinted by sentiment */
+.message.user.sentiment-anguished {
+    border-left: 3px solid rgba(200, 56, 56, 0.7);
+}
+
+.message.user.sentiment-somber {
+    border-left: 3px solid rgba(100, 120, 180, 0.7);
+}
+
+.message.user.sentiment-warm {
+    border-left: 3px solid rgba(255, 160, 40, 0.7);
+}
+
+.message.user.sentiment-compassionate {
+    border-left: 3px solid rgba(100, 220, 140, 0.7);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+    #chat-messages {
+        padding: 10px 16px;
+    }
+
+    #input-area {
+        padding: 12px 16px;
+    }
+
+    .message {
+        max-width: 85%;
+        font-size: 0.95rem;
+    }
+
+    #intro-content h1 {
+        font-size: 1.6rem;
+    }
+
+    .door-inner {
+        padding: 30px 20px;
+    }
+
+    .window {
+        width: 50px;
+        height: 80px;
+        top: 5%;
+        right: 5%;
+    }
+
+    .bed {
+        width: 90px;
+        height: 28px;
+    }
+}

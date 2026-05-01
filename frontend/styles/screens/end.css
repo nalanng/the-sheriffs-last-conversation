@@ -1,0 +1,160 @@
+/* ============================================
+   END SCREEN — Fade text, lyrics, buttons
+   ============================================ */
+
+#end-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    background: #000;
+}
+
+#end-content {
+    max-width: 500px;
+    padding: 40px;
+}
+
+.end-sequence {
+    opacity: 0;
+    animation: endFadeIn 2s ease forwards;
+}
+
+.end-text {
+    font-size: 1.5rem;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+    font-style: italic;
+    opacity: 0;
+}
+
+.end-text.fade-1 {
+    animation: endItemFade 2s ease forwards;
+    animation-delay: 0.5s;
+}
+
+.end-text.fade-2 {
+    font-size: 1rem;
+    margin-bottom: 40px;
+    animation: endItemFade 2s ease forwards;
+    animation-delay: 2s;
+}
+
+.end-lyric {
+    margin-bottom: 50px;
+    opacity: 0;
+    animation: endItemFade 3s ease forwards;
+    animation-delay: 4s;
+}
+
+.end-lyric p {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 1.3rem;
+    font-style: italic;
+    color: var(--text-sheriff);
+    line-height: 2;
+    text-shadow: 0 0 30px rgba(201, 168, 76, 0.3);
+}
+
+.end-lyric .lyric-attribution {
+    display: block;
+    margin-top: 16px;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    font-style: normal;
+    letter-spacing: 2px;
+}
+
+.end-actions {
+    opacity: 0;
+    animation: endItemFade 2s ease forwards;
+    animation-delay: 6.5s;
+}
+
+#listen-btn, #export-btn, #restart-btn {
+    display: block;
+    width: 100%;
+    margin-bottom: 14px;
+    padding: 14px 30px;
+    font-family: 'Special Elite', cursive;
+    font-size: 1rem;
+    color: var(--text-primary);
+    background: transparent;
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+#listen-btn:hover, #export-btn:hover, #restart-btn:hover {
+    background: rgba(184, 134, 11, 0.1);
+    border-color: var(--accent);
+}
+
+/* Listen button — primary action with accent styling */
+#listen-btn {
+    border-color: var(--accent);
+    color: var(--text-sheriff);
+    text-shadow: 0 0 20px rgba(201, 168, 76, 0.2);
+}
+
+/* Pulsing glow while narrating */
+#listen-btn.narrating {
+    animation: narratePulse 2s ease-in-out infinite;
+    border-color: var(--text-sheriff);
+    background: rgba(184, 134, 11, 0.08);
+}
+
+@keyframes narratePulse {
+    0%, 100% {
+        box-shadow: 0 0 8px rgba(201, 168, 76, 0.1);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(201, 168, 76, 0.3);
+    }
+}
+
+/* Letter display area */
+#letter-display {
+    margin-bottom: 30px;
+    padding: 24px;
+    max-height: 35vh;
+    overflow-y: auto;
+    border-left: 2px solid rgba(201, 168, 76, 0.3);
+    background: rgba(10, 8, 4, 0.6);
+    animation: letterFadeIn 1.5s ease forwards;
+}
+
+#letter-display.hidden {
+    display: none;
+}
+
+#letter-text {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 0.95rem;
+    font-style: italic;
+    color: var(--text-dim);
+    line-height: 1.9;
+    text-align: left;
+    white-space: pre-wrap;
+}
+
+@keyframes letterFadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Scrollbar styling for letter display */
+#letter-display::-webkit-scrollbar {
+    width: 4px;
+}
+
+#letter-display::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#letter-display::-webkit-scrollbar-thumb {
+    background: rgba(201, 168, 76, 0.3);
+    border-radius: 2px;
+}

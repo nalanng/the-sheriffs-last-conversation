@@ -1,0 +1,107 @@
+/* ============================================
+   SENTIMENT-REACTIVE VISUALS (NLP-driven)
+   ============================================ */
+
+/* Lamp glow color shifts — !important overrides stage defaults */
+body.sentiment-anguished {
+    --lamp-color: rgba(200, 60, 60, 0.18) !important;
+}
+
+body.sentiment-somber {
+    --lamp-color: rgba(100, 120, 180, 0.16) !important;
+}
+
+body.sentiment-warm {
+    --lamp-color: rgba(255, 160, 40, 0.20) !important;
+}
+
+body.sentiment-compassionate {
+    --lamp-color: rgba(100, 220, 140, 0.20) !important;
+}
+
+/* Sentiment badge — dot + label shown below user message */
+.sentiment-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+    opacity: 0;
+    animation: sentimentFadeIn 1s ease 0.3s forwards;
+}
+
+@keyframes sentimentFadeIn {
+    to { opacity: 0.7; }
+}
+
+.sentiment-label {
+    font-size: 0.7rem;
+    font-style: italic;
+    letter-spacing: 0.5px;
+    color: var(--text-dim);
+}
+
+/* Response effect — shown below sheriff's message */
+.response-effect {
+    display: block;
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(139, 119, 72, 0.15);
+    font-size: 0.7rem;
+    font-style: italic;
+    color: #8a7a5a;
+    letter-spacing: 0.3px;
+    opacity: 0;
+    animation: sentimentFadeIn 1.5s ease 0.5s forwards;
+}
+
+/* Sentiment dot */
+.sentiment-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: opacity 0.5s ease;
+}
+
+.dot-anguished {
+    background: #c83838;
+    box-shadow: 0 0 8px rgba(200, 56, 56, 0.6);
+}
+
+.dot-somber {
+    background: #6478b4;
+    box-shadow: 0 0 8px rgba(100, 120, 180, 0.6);
+}
+
+.dot-calm {
+    background: #b8a070;
+    box-shadow: 0 0 6px rgba(184, 160, 112, 0.4);
+}
+
+.dot-warm {
+    background: #e09020;
+    box-shadow: 0 0 8px rgba(255, 160, 40, 0.6);
+}
+
+.dot-compassionate {
+    background: #50c878;
+    box-shadow: 0 0 8px rgba(100, 220, 140, 0.6);
+}
+
+/* User message border-left color tinted by sentiment */
+.message.user.sentiment-anguished {
+    border-left: 3px solid rgba(200, 56, 56, 0.7);
+}
+
+.message.user.sentiment-somber {
+    border-left: 3px solid rgba(100, 120, 180, 0.7);
+}
+
+.message.user.sentiment-warm {
+    border-left: 3px solid rgba(255, 160, 40, 0.7);
+}
+
+.message.user.sentiment-compassionate {
+    border-left: 3px solid rgba(100, 220, 140, 0.7);
+}

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Sheriff's Last Conversation</title>
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Special+Elite&display=swap" rel="stylesheet">
+
+    <!-- Modular CSS -->
+    <link rel="stylesheet" href="styles/base.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    <link rel="stylesheet" href="styles/overlays.css">
+    <link rel="stylesheet" href="styles/room-scene.css">
+    <link rel="stylesheet" href="styles/components/particles.css">
+    <link rel="stylesheet" href="styles/components/lyrics.css">
+    <link rel="stylesheet" href="styles/components/sentiment.css">
+    <link rel="stylesheet" href="styles/screens/intro.css">
+    <link rel="stylesheet" href="styles/screens/chat.css">
+    <link rel="stylesheet" href="styles/screens/end.css">
+    <link rel="stylesheet" href="styles/responsive.css">
+</head>
+<body>
+    <!-- Particle canvas — dust motes in lamplight -->
+    <canvas id="particles"></canvas>
+
+    <!-- Ambient overlay that darkens over stages -->
+    <div id="darkness-overlay"></div>
+
+    <!-- Lamp flicker effect -->
+    <div id="lamp-glow"></div>
+
+    <!-- Stage transition flash -->
+    <div id="stage-flash"></div>
+
+    <!-- Dylan lyrics overlay — ghostly text -->
+    <div id="lyrics-overlay"></div>
+
+    <!-- Room scene elements (CSS art) -->
+    <div id="room-scene">
+        <div class="window">
+            <div class="moonlight"></div>
+        </div>
+        <div class="desk">
+            <div class="badge"></div>
+            <div class="revolver"></div>
+            <div class="lamp-object"></div>
+        </div>
+        <div class="bed">
+            <div class="sheriff-silhouette"></div>
+        </div>
+    </div>
+
+    <!-- Main container -->
+    <div id="app">
+        <!-- Opening screen -->
+        <div id="intro-screen">
+            <div id="intro-content">
+                <div class="door-frame">
+                    <div class="door-inner">
+                        <div class="door-knocker"></div>
+                        <h1>The Sheriff's Last Conversation</h1>
+                        <p class="intro-text">
+                            New Mexico, 1881. A dim lamp flickers in a dark room.
+                            On the desk &mdash; a badge and a revolver.
+                            In the corner, the wounded sheriff lies in bed.
+                        </p>
+                        <p class="intro-text small">
+                            Inspired by Bob Dylan's "Knockin' on Heaven's Door"
+                        </p>
+                        <button id="start-btn">Enter the Room</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat screen -->
+        <div id="chat-screen" class="hidden">
+            <!-- Stage indicator -->
+            <div id="stage-indicator">
+                <span id="stage-text">The sheriff watches you enter...</span>
+            </div>
+
+            <!-- Chat messages area -->
+            <div id="chat-messages">
+                <!-- Messages will be appended here -->
+            </div>
+
+            <!-- Input area -->
+            <div id="input-area">
+                <input
+                    type="text"
+                    id="user-input"
+                    placeholder="Speak to the sheriff..."
+                    autocomplete="off"
+                />
+                <button id="send-btn">Send</button>
+            </div>
+        </div>
+
+        <!-- End screen -->
+        <div id="end-screen" class="hidden">
+            <div id="end-content">
+                <div class="end-sequence">
+                    <p class="end-text fade-1">The lamp goes out.</p>
+                    <p class="end-text fade-2">A door knocks somewhere far away...</p>
+                    <div class="end-lyric fade-3">
+                        <p>"Mama, take this badge off of me</p>
+                        <p>I can't use it anymore"</p>
+                        <span class="lyric-attribution">&mdash; Bob Dylan, 1973</span>
+                    </div>
+                    <!-- Letter display area (shown during narration) -->
+                    <div id="letter-display" class="hidden">
+                        <p id="letter-text"></p>
+                    </div>
+
+                    <div class="end-actions fade-4">
+                        <button id="listen-btn">Listen to the Sheriff's Last Letter</button>
+                        <button id="export-btn">Download the Sheriff's Last Letter</button>
+                        <button id="restart-btn">Start Over</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="scripts/main.js"></script>
+</body>
+</html>

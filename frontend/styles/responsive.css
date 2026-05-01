@@ -1,0 +1,38 @@
+/* ============================================
+   RESPONSIVE — Mobile breakpoints
+   ============================================ */
+
+@media (max-width: 768px) {
+    #chat-messages {
+        padding: 10px 16px;
+    }
+
+    #input-area {
+        padding: 12px 16px;
+    }
+
+    .message {
+        max-width: 85%;
+        font-size: 0.95rem;
+    }
+
+    #intro-content h1 {
+        font-size: 1.6rem;
+    }
+
+    .door-inner {
+        padding: 30px 20px;
+    }
+
+    .window {
+        width: 50px;
+        height: 80px;
+        top: 5%;
+        right: 5%;
+    }
+
+    .bed {
+        width: 90px;
+        height: 28px;
+    }
+}

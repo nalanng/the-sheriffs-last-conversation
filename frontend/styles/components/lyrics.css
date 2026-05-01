@@ -1,0 +1,21 @@
+/* Dylan Lyrics Overlay */
+#lyrics-overlay {
+    position: fixed;
+    top: 12%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 50;
+    pointer-events: none;
+    text-align: center;
+    width: 80%;
+    max-width: 600px;
+}
+
+#lyrics-overlay .lyric-line {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    color: rgba(201, 168, 76, 0);
+    letter-spacing: 2px;
+    animation: lyricFade 6s ease-in-out forwards;
+}

@@ -1,0 +1,126 @@
+/* ============================================
+   INTRO SCREEN — Door frame, title, start button
+   ============================================ */
+
+#intro-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    animation: fadeIn 2s ease;
+}
+
+#intro-content {
+    max-width: 650px;
+    padding: 40px;
+}
+
+/* Door frame visual */
+.door-frame {
+    position: relative;
+    border: 2px solid rgba(139, 119, 72, 0.25);
+    border-radius: 4px 4px 0 0;
+    padding: 6px;
+    background: rgba(10, 8, 4, 0.4);
+}
+
+.door-frame::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(184, 134, 11, 0.4);
+    transform: translateY(-50%);
+}
+
+.door-inner {
+    position: relative;
+    border: 1px solid rgba(139, 119, 72, 0.12);
+    padding: 50px 40px;
+}
+
+/* Door knocker — decorative ring at top center */
+.door-knocker {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 22px;
+    height: 22px;
+    border: 2px solid rgba(184, 134, 11, 0.35);
+    border-radius: 50%;
+    background: transparent;
+}
+
+.door-knocker::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background: rgba(184, 134, 11, 0.3);
+    border-radius: 50%;
+}
+
+#intro-content h1 {
+    font-family: 'Special Elite', cursive;
+    font-size: 2.2rem;
+    color: var(--text-sheriff);
+    margin-bottom: 30px;
+    letter-spacing: 2px;
+    text-shadow: 0 0 30px rgba(201, 168, 76, 0.3);
+    animation: titleGlow 4s ease-in-out infinite;
+}
+
+.intro-text {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+.intro-text.small {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+}
+
+#start-btn {
+    margin-top: 30px;
+    padding: 14px 40px;
+    font-family: 'Special Elite', cursive;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    background: transparent;
+    border: 1px solid var(--accent);
+    cursor: pointer;
+    letter-spacing: 2px;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+#start-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(184, 134, 11, 0.2), transparent);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+#start-btn:hover {
+    background: rgba(184, 134, 11, 0.15);
+    box-shadow: 0 0 30px rgba(184, 134, 11, 0.25);
+    transform: scale(1.02);
+}
+
+#start-btn:hover::before {
+    opacity: 1;
+}

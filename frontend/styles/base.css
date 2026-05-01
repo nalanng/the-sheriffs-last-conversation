@@ -1,0 +1,44 @@
+/* ============================================
+   BASE — Reset, CSS Variables, Fonts
+   ============================================ */
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --lamp-color: rgba(255, 180, 80, 0.12);
+    --lamp-intensity: 1;
+    --darkness: 0;
+    --text-primary: #d4c4a0;
+    --text-dim: #8a7a5a;
+    --text-sheriff: #c9a84c;
+    --bg-dark: #0a0804;
+    --bg-chat: rgba(20, 16, 10, 0.85);
+    --border-color: rgba(139, 119, 72, 0.3);
+    --accent: #b8860b;
+    --scene-opacity: 1;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    font-family: 'IM Fell English', Georgia, serif;
+}
+
+/* App container */
+#app {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+}
+
+.hidden {
+    display: none !important;
+}

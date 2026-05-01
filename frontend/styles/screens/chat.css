@@ -1,0 +1,223 @@
+/* ============================================
+   CHAT SCREEN — Messages, input, bubbles
+   ============================================ */
+
+#chat-screen {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding: 20px;
+    animation: fadeIn 1.5s ease;
+}
+
+/* Stage indicator */
+#stage-indicator {
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+#stage-text {
+    font-size: 0.85rem;
+    color: #a89870;
+    font-style: italic;
+    letter-spacing: 1px;
+    transition: all 2s ease;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+}
+
+/* Chat messages container */
+#chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color) transparent;
+}
+
+#chat-messages::-webkit-scrollbar {
+    width: 4px;
+}
+
+#chat-messages::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 2px;
+}
+
+/* ── Message Bubbles ── */
+.message {
+    max-width: 70%;
+    padding: 14px 20px;
+    border-radius: 4px;
+    line-height: 1.7;
+    animation: messageIn 0.6s ease;
+}
+
+.message.user {
+    align-self: flex-end;
+    background: rgba(60, 50, 30, 0.5);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    font-size: 1.05rem;
+}
+
+.message.sheriff {
+    align-self: flex-start;
+    background: rgba(30, 25, 15, 0.7);
+    border-left: 3px solid var(--accent);
+    color: var(--text-sheriff);
+    font-style: italic;
+    font-size: 1.05rem;
+    transition: font-size 2s ease, opacity 2s ease, filter 2s ease;
+}
+
+.message.sheriff .speaker {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-bottom: 6px;
+    font-style: normal;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Typewriter cursor */
+.typewriter-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background: var(--text-sheriff);
+    margin-left: 2px;
+    vertical-align: text-bottom;
+    animation: cursorBlink 0.8s step-end infinite;
+}
+
+/* Stage-based text degradation (subtle — still readable) */
+body.stage-2 .message.sheriff {
+    font-size: 1rem;
+    opacity: 0.92;
+}
+
+body.stage-3 .message.sheriff {
+    font-size: 0.95rem;
+    opacity: 0.8;
+}
+
+body.stage-3 .message.sheriff:last-of-type {
+    animation: textShake 4s ease-in-out infinite;
+}
+
+/* Stage 3 input placeholder */
+body.stage-3 #user-input::placeholder {
+    content: "He may not answer...";
+}
+
+/* ── Narrator / Stage Direction ── */
+.message.narrator {
+    align-self: center;
+    max-width: 80%;
+    text-align: center;
+    background: rgba(10, 8, 4, 0.6);
+    border: none;
+    padding: 18px 24px;
+    color: #c4b48a;
+    font-style: italic;
+    font-size: 0.88rem;
+    letter-spacing: 0.5px;
+    line-height: 1.8;
+    opacity: 0;
+    animation: narratorFadeIn 3s ease forwards;
+    position: relative;
+    text-shadow: 0 0 12px rgba(0, 0, 0, 0.8);
+}
+
+.message.narrator::before,
+.message.narrator::after {
+    content: "———";
+    display: block;
+    color: var(--border-color);
+    opacity: 0.4;
+    font-size: 0.7rem;
+    letter-spacing: 6px;
+}
+
+.message.narrator::before {
+    margin-bottom: 10px;
+}
+
+.message.narrator::after {
+    margin-top: 10px;
+}
+
+@keyframes narratorFadeIn {
+    0%   { opacity: 0; transform: translateY(8px); }
+    100% { opacity: 0.85; transform: translateY(0); }
+}
+
+/* Typing indicator */
+.typing-indicator {
+    align-self: flex-start;
+    padding: 14px 20px;
+    color: var(--text-dim);
+    font-style: italic;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* ── Input Area ── */
+#input-area {
+    display: flex;
+    gap: 12px;
+    padding: 16px 40px;
+    border-top: 1px solid var(--border-color);
+}
+
+#user-input {
+    flex: 1;
+    padding: 12px 18px;
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 1rem;
+    color: var(--text-primary);
+    background: rgba(20, 16, 10, 0.9);
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+#user-input:focus {
+    border-color: var(--accent);
+}
+
+#user-input::placeholder {
+    color: var(--text-dim);
+    font-style: italic;
+}
+
+#user-input:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+#send-btn {
+    padding: 12px 28px;
+    font-family: 'Special Elite', cursive;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    background: transparent;
+    border: 1px solid var(--accent);
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+#send-btn:hover:not(:disabled) {
+    background: rgba(184, 134, 11, 0.15);
+}
+
+#send-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
