@@ -280,5 +280,5 @@ the-sheriffs-last-conversation/
 
 ---
 
-*CSE 358 Introduction to Artificial Intelligence — Creative Project*
+*CSE 5058 Introduction to Artificial Intelligence — Creative Project*
 *Inspired by Bob Dylan's "Knockin' on Heaven's Door" (1973)*
